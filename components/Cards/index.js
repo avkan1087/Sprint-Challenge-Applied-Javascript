@@ -9,11 +9,62 @@
 // <div class="card">
 //   <div class="headline">{Headline of article}</div>
 //   <div class="author">
-//     <div class="img-container">
-//       <img src={url of authors image} />
-//     </div>
+//      <div class="img-container">
+//        <img src={url of authors image} />
+//      </div>
 //     <span>By {authors name}</span>
 //   </div>
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
+
+
+axios
+  .get("https://lambda-times-backend.herokuapp.com/articles")
+  .then(response => {
+    let myObj = response.data.articles;
+
+
+    Object.keys(myObj).forEach(function(key){
+      let dataArray = myObj[key];
+      dataArray.forEach((article)=> createCard(article))
+    })
+
+
+  });
+
+
+function createCard (article) {
+
+
+  const card = document.createElement('div');
+        headline = document.createElement('div');
+        author = document.createElement('div');
+        imgCon = document.createElement('div');
+        img =document.createElement('img');
+        span = document.createElement('span');
+        cardsContainer = document.querySelector('.cards-container');
+
+
+
+        cardsContainer.append(card);
+        card.append(headline);
+        card.append(author);
+        author.append(imgCon);
+        author.append(span);
+        imgCon.append(img);
+
+        card.classList.add('card');
+        headline.classList.add('headline');
+        author.classList.add('author');
+        imgCon.classList.add('img-container');
+
+        headline.textContent = article.headline;
+        img.src = article.authorPhoto;
+        span.textContent = article.authorName;
+
+
+
+
+  return card
+}
